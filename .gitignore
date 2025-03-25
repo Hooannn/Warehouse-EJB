@@ -1,0 +1,51 @@
+# NetBeans specific
+nbproject/private/
+build/
+data/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Ant build specific
+build.xml
+build-impl.xml
+manifest.mf
+genfiles.properties
+
+# Generated files
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# IDE-specific
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# OS specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.swp
+*.swo
+*~
+*.bak
+*.tmp
+*.old
+*.orig
+
+# Maven or Gradle specific (if applicable)
+target/
+.gradle/
+.mvn/
+.settings/
+.cache/
+.project
+.classpath
