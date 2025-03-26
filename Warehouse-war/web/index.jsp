@@ -68,10 +68,8 @@
                 box-shadow: 0 1px 1px rgba(0,0,0,.05);
             }
             .table-title {
-                padding-bottom: 15px;
-                background: #435d7d;
                 color: #fff;
-                padding: 16px 30px;
+                padding: 8px 30px;
                 min-width: 100%;
                 margin: -20px -25px 10px;
                 border-radius: 3px 3px 0 0;
@@ -89,7 +87,6 @@
                 font-size: 13px;
                 border: none;
                 min-width: 50px;
-                border-radius: 2px;
                 border: none;
                 outline: none !important;
                 margin-left: 10px;
@@ -154,108 +151,10 @@
                 vertical-align: middle;
                 margin-right: 10px;
             }
-            .pagination {
-                float: right;
-                margin: 0 0 5px;
-            }
-            .pagination li a {
-                border: none;
-                font-size: 13px;
-                min-width: 30px;
-                min-height: 30px;
-                color: #999;
-                margin: 0 2px;
-                line-height: 30px;
-                border-radius: 2px !important;
-                text-align: center;
-                padding: 0 6px;
-            }
-            .pagination li a:hover {
-                color: #666;
-            }
-            .pagination li.active a, .pagination li.active a.page-link {
-                background: #03A9F4;
-            }
-            .pagination li.active a:hover {
-                background: #0397d6;
-            }
-            .pagination li.disabled i {
-                color: #ccc;
-            }
-            .pagination li i {
-                font-size: 16px;
-                padding-top: 6px
-            }
             .hint-text {
                 float: left;
                 margin-top: 10px;
                 font-size: 13px;
-            }
-            /* Custom checkbox */
-            .custom-checkbox {
-                position: relative;
-            }
-            .custom-checkbox input[type="checkbox"] {
-                opacity: 0;
-                position: absolute;
-                margin: 5px 0 0 3px;
-                z-index: 9;
-            }
-            .custom-checkbox label:before{
-                width: 18px;
-                height: 18px;
-            }
-            .custom-checkbox label:before {
-                content: '';
-                margin-right: 10px;
-                display: inline-block;
-                vertical-align: text-top;
-                background: white;
-                border: 1px solid #bbb;
-                border-radius: 2px;
-                box-sizing: border-box;
-                z-index: 2;
-            }
-            .custom-checkbox input[type="checkbox"]:checked + label:after {
-                content: '';
-                position: absolute;
-                left: 6px;
-                top: 3px;
-                width: 6px;
-                height: 11px;
-                border: solid #000;
-                border-width: 0 3px 3px 0;
-                transform: inherit;
-                z-index: 3;
-                transform: rotateZ(45deg);
-            }
-            .custom-checkbox input[type="checkbox"]:checked + label:before {
-                border-color: #03A9F4;
-                background: #03A9F4;
-            }
-            .custom-checkbox input[type="checkbox"]:checked + label:after {
-                border-color: #fff;
-            }
-            .custom-checkbox input[type="checkbox"]:disabled + label:before {
-                color: #b8b8b8;
-                cursor: auto;
-                box-shadow: none;
-                background: #ddd;
-            }
-            /* Modal styles */
-            .modal .modal-dialog {
-                max-width: 400px;
-            }
-            .modal .modal-header, .modal .modal-body, .modal .modal-footer {
-                padding: 20px 30px;
-            }
-            .modal .modal-content {
-                border-radius: 3px;
-                font-size: 14px;
-            }
-            .modal .modal-footer {
-                background: #ecf0f1;
-                border-radius: 0 0 3px 3px;
             }
             .modal .modal-title {
                 display: inline-block;
@@ -269,11 +168,7 @@
                 resize: vertical;
             }
             .modal .btn {
-                border-radius: 2px;
                 min-width: 100px;
-            }
-            .modal form label {
-                font-weight: normal;
             }
         </style>
         <script>
@@ -284,23 +179,139 @@
                 document.getElementById("deleteProductId").value = productId;
                 $('#deleteEmployeeModal').modal('show');
             }
+            function openEditModal(product) {
+                document.getElementById('editProductId').value = product.id;
+                document.getElementById('editSku').value = product.sku;
+                document.getElementById('editName').value = product.name;
+                document.getElementById('editDescription').value = product.description;
+                document.getElementById('editBrand').value = product.brand;
+                document.getElementById('editCategory').value = product.categoryId;
+                document.getElementById('editSupplier').value = product.supplierId;
+                document.getElementById('editStatus').value = product.status;
+                $('#editEmployeeModal').modal('show');
+            }
         </script>
     </head>
     <body>
-        <div class="container-xl">
-            <div class="table-responsive">
-                <div class="table-wrapper">
-                    <div class="table-title">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h2>Quản lý <b>sản phẩm</b></h2>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+                <div class="col">
+                    <div class="row">
+                        <button
+                            data-mdb-collapse-init
+                            class="navbar-toggler"
+                            type="button"
+                            data-mdb-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                            >
+                            <i class="fas fa-bars"></i>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div class="row align-items-center px-3" href="#">
+                                <img
+                                    src="https://iili.io/3TglYep.png"
+                                    alt="MDB Logo"
+                                    loading="lazy"
+                                    />
+                                <div class="text-white font-bold" style="font-size: 20px">StoragePro Co.</div>
                             </div>
-                            <div class="col-sm-6">
-                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Thêm sản phẩm</span></a>				
+                        </div>
+                        <!-- Collapsible wrapper -->
+
+                        <!-- Right elements -->
+                        <div class="d-flex align-items-center">
+
+                            <!-- Avatar -->
+                            <div class="text-white font-bold">
+                                [Nguyen Van A - QL Kho]
                             </div>
                         </div>
                     </div>
-                    <table class="table table-striped table-hover">
+                    <div class="navbar-nav row py-1">
+                        <a class="nav-link" href="#">Tổng quan <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">Quản lý nhập hàng</a>
+                        <a class="nav-link" href="#">Quản lý xuất hàng</a>
+                        <a class="nav-link active" href="#">Quản lý sản phẩm</a>
+                        <a class="nav-link" href="#">Quản lý nhân sự</a>
+                    </div>
+                </div>
+                <!-- Toggle button -->
+
+                <!-- Right elements -->
+            </div>
+            <!-- Container wrapper -->
+        </nav>
+        <div class="container-fluid d-flex" style="gap: 24px;">
+            <div style="margin-top: 30px; " class="w-25">
+                <div style="border-radius: 3px; overflow: hidden" class="w-100">
+                    <div class="bg-dark text-white" style="padding: 13.5px 30px; font-size: 15px">
+                    Tìm kiếm
+                    </div>
+                    <div class="bg-white p-3">
+                        <form>
+                            <input type="hidden" name="action" value="search">
+                            <div class="form-group">
+                                <input style="font-size: 13px" name="sku" type="text" class="form-control" placeholder="SKU sản phẩm..." >
+                            </div>
+                            <div class="form-group">
+                                <select style="font-size: 13px" class="form-control" name="category">
+                                    <option value="" disabled selected>Chọn danh mục</option>
+                                    <%
+                                        if (categories != null && !categories.isEmpty()) {
+                                            for (Category category : categories) {
+                                    %>
+                                    <option value="<%= category.getId()%>"><%= category.getName()%></option>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select style="font-size: 13px" class="form-control" name="supplier">
+                                    <option value="" disabled selected>Chọn nhà cung cấp</option>
+                                    <%
+                                        if (suppliers != null && !suppliers.isEmpty()) {
+                                            for (BusinessPartner supplier : suppliers) {
+                                    %>
+                                    <option value="<%= supplier.getId()%>"><%= supplier.getName()%></option>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select style="font-size: 13px" class="form-control" name="status">
+                                    <option value="" disabled selected>Chọn trạng thái</option>
+                                    <option value="PENDING">Khởi tạo</option>
+                                    <option value="AVAILABLE">Sẵn sàng</option>
+                                    <option value="OUT_OF_STOCK">Hết hàng</option>
+                                    <option value="MAINTAINING">Bảo trì</option>
+                                </select>
+                            </div>
+                            <input type="submit" class="btn btn-info w-100" style="font-size: 13px" value="Tìm kiếm">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title bg-dark">
+                        <div class="row align-items-center">
+                            <div class="col-sm-6">
+                                <div style="font-size: 15px">Quản lý <b>sản phẩm</b></div>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#addEmployeeModal" class="btn btn-dark" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Thêm sản phẩm</span></a>				
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover" style="font-size: 14px">
                         <thead>
                             <tr>
                                 <th>Mã sản phẩm</th>
@@ -328,10 +339,30 @@
                                 <td><%= product.getBrand()%></td>
                                 <td><%= product.getCategory().getName()%></td>
                                 <td><%= product.getSupplier().getName()%></td>
-                                <td><%= product.getStatus()%></td>
+                                <td>
+                                    <%
+                                        if (product.getStatus() == ProductStatus.PENDING) {
+                                    %>
+                                    <div class="badge badge-primary p-2 w-100">Khởi tạo</div>
+                                    <%
+                                    } else if (product.getStatus() == ProductStatus.OUT_OF_STOCK) {
+                                    %>
+                                    <div class="badge badge-warning p-2 w-100">Hết hàng</div>
+                                    <%
+                                    } else if (product.getStatus() == ProductStatus.AVAILABLE) {
+                                    %>
+                                    <div class="badge badge-success p-2 w-100">Sẵn sàng</div>
+                                    <%
+                                    } else {
+                                    %>
+                                    <div class="badge badge-danger p-2 w-100" >Bảo trì</div>
+                                    <%
+                                        }
+                                    %>
+                                </td>
                                 <td><%= product.getCreatedAt()%></td>
                                 <td>
-                                    <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Sửa">&#xE254;</i></a>
+                                    <a style="cursor: pointer" onclick="openEditModal({id: <%= product.getId() %>, sku: `<%= product.getSku() %>`, name: '<%= product.getName() %>', description: '<%= product.getDescription() %>', brand: '<%= product.getBrand() %>', categoryId: '<%= product.getCategory().getId() %>', supplierId: '<%= product.getSupplier().getId() %>', status: '<%= product.getStatus() %>'})" class="edit"><i class="material-icons" data-toggle="tooltip" title="Sửa">&#xE254;</i></a>
                                     <a style="cursor: pointer" onclick="openDeleteModal(<%= product.getId() %>)" class="delete"><i class="material-icons" data-toggle="tooltip" title="Xoá">&#xE872;</i></a>
                                 </td>
                             </tr>
@@ -385,7 +416,6 @@
 
             <% if (success) { %>
                         location.reload();
-                        toastr.success("Thêm sản phẩm thành công!");
             <% } else if ("create".equals(action)) { %>
                         toastr.error("Có lỗi xảy ra khi thêm sản phẩm! Hãy thử lại!");
             <% } %>
@@ -393,12 +423,12 @@
         
         
         <div id="addEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form>
                         <input type="hidden" name="action" value="create">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Thêm sản phẩm</h4>
+                            <h6 class="modal-title">Thêm sản phẩm</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
@@ -450,45 +480,138 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Huỷ">
-                            <input type="submit" class="btn btn-success" value="Thêm">
+                            <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Huỷ">
+                            <input type="submit" class="btn btn-info btn-sm" value="Thêm">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <!-- NEXT: Tue 25 Mar 23:27 -->
+        <%
+        String updateAction = request.getParameter("action");
+        boolean updateSuccess = false;
+        if ("update".equals(updateAction)) {
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            String sku = request.getParameter("sku");
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            String brand = request.getParameter("brand");
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+            int supplierId = Integer.parseInt(request.getParameter("supplier"));
+            ProductStatus status = ProductStatus.valueOf(request.getParameter("status"));
+
+            Product productToUpdate = productService.getById(productId);
+            if (productToUpdate != null) {
+                productToUpdate.setSku(sku);
+                productToUpdate.setDescription(description);
+                productToUpdate.setBrand(brand);
+                productToUpdate.setName(name);
+                productToUpdate.setStatus(status);
+                
+                Category category = new Category();
+                category.setId(categoryId);
+                productToUpdate.setCategory(category);
+                
+                BusinessPartner supplier = new BusinessPartner();
+                supplier.setId(supplierId);
+                productToUpdate.setSupplier(supplier);
+                
+                updateSuccess = productService.update(productToUpdate);
+                products = productService.getAll();
+            }
+        }
+        %>
+        <script>
+            const url2 = new URL(window.location.href);
+            url2.search = "";
+            window.history.replaceState({}, document.title, url2);
+        </script>
+        <%
+            if (updateSuccess) {
+        %>
+        <script>
+            location.reload();
+        </script>
+        <%
+        } else if ("update".equals(updateAction)) {
+        %>
+        <script>
+            toastr.error("Có lỗi xảy ra khi cập nhật sản phẩm! Hãy thử lại!");
+        </script>
+        <%
+            }
+        %>
         <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form>
                         <input type="hidden" name="productId" id="editProductId">
                         <input type="hidden" name="action" value="update">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Edit Employee</h4>
+                            <h6 class="modal-title">Sửa sản phẩm</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
+                                <label >SKU</label>
+                                <input id="editSku" name="sku" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
+                                <label >Tên</label>
+                                <input id="editName" name="name" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Address</label>
-                                <textarea class="form-control" required></textarea>
+                                <label>Mô tả</label>
+                                <textarea id="editDescription" name="description" class="form-control" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" required>
-                            </div>					
+                                <label>Thương hiệu</label>
+                                <input id="editBrand" name="brand" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Danh mục</label>
+                                <select id="editCategory" class="form-control" name="category" required>
+                                    <option value="" disabled selected>Chọn danh mục</option>
+                                    <%
+                                        if (categories != null && !categories.isEmpty()) {
+                                            for (Category category : categories) {
+                                    %>
+                                    <option value="<%= category.getId()%>"><%= category.getName()%></option>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nhà cung cấp</label>
+                                <select id="editSupplier" class="form-control" name="supplier" required>
+                                    <option value="" disabled selected>Chọn nhà cung cấp</option>
+                                    <%
+                                        if (suppliers != null && !suppliers.isEmpty()) {
+                                            for (BusinessPartner supplier : suppliers) {
+                                    %>
+                                    <option value="<%= supplier.getId()%>"><%= supplier.getName()%></option>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                <select id="editStatus" class="form-control" name="status" required>
+                                    <option value="" disabled selected>Chọn trạng thái</option>
+                                    <option value="PENDING">Khởi tạo</option>
+                                    <option value="AVAILABLE">Sẵn sàng</option>
+                                    <option value="OUT_OF_STOCK">Hết hàng</option>
+                                    <option value="MAINTAINING">Bảo trì</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-info" value="Save">
+                            <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Huỷ">
+                            <input type="submit" class="btn btn-info btn-sm" value="Cập nhật">
                         </div>
                     </form>
                 </div>
@@ -515,13 +638,13 @@
             <% } %>
         </script>
         <div id="deleteEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form>
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" id="deleteProductId" name="productId">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Xoá sản phẩm</h4>
+                            <h6 class="modal-title">Xoá sản phẩm</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
@@ -529,8 +652,8 @@
                             <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
                         </div>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Huỷ">
-                            <input type="submit" class="btn btn-danger" value="Xoá">
+                            <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Huỷ">
+                            <input type="submit" class="btn btn-danger btn-sm" value="Xoá">
                         </div>
                     </form>
                 </div>

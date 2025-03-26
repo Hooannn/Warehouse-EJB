@@ -76,11 +76,11 @@ public class ProductRepository {
         List<Product> products = new ArrayList<>();
         String sql = 
             "SELECT p.*, " +
-            "       c.\"Name\" AS \"CategoryName\", " +
-            "       bp.\"CompanyName\" AS \"SupplierName\" " +
+            "       c.\"Name\" AS \"CategoryName\", c.\"CategoryID\" AS \"CategoryID\"," +
+            "       bp.\"CompanyName\" AS \"SupplierName\", bp.\"PartnerID\" AS \"SupplierID\" " +
             "FROM \"Product\" p " +
             "JOIN \"Category\" c ON c.\"CategoryID\" = p.\"CategoryID\" " +
-            "JOIN \"BusinessPartner\" bp ON p.\"SupplierID\" = bp.\"PartnerID\";";
+            "JOIN \"BusinessPartner\" bp ON p.\"SupplierID\" = bp.\"PartnerID\" ORDER BY p.\"ProductID\" ASC;";
         try (Statement stmt = getConnection().createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Product product = new Product();
@@ -94,10 +94,12 @@ public class ProductRepository {
                 
                 Category category = new Category();
                 category.setName(rs.getString("CategoryName"));
+                category.setId(rs.getInt("CategoryID"));
                 product.setCategory(category);
                 
                 BusinessPartner supplier = new BusinessPartner();
                 supplier.setName(rs.getString("SupplierName"));
+                supplier.setId(rs.getInt("SupplierID"));
                 product.setSupplier(supplier);
                 
                 products.add(product);
@@ -107,6 +109,47 @@ public class ProductRepository {
         }
         return products;
     }
+    
+    public Product getProductById(int productId) {
+        Product product = null;
+        String sql
+                = "SELECT p.*, "
+                + "       c.\"Name\" AS \"CategoryName\", c.\"CategoryID\" AS \"CategoryID\", "
+                + "       bp.\"CompanyName\" AS \"SupplierName\", bp.\"PartnerID\" AS \"SupplierID\" "
+                + "FROM \"Product\" p "
+                + "JOIN \"Category\" c ON c.\"CategoryID\" = p.\"CategoryID\" "
+                + "JOIN \"BusinessPartner\" bp ON p.\"SupplierID\" = bp.\"PartnerID\" "
+                + "WHERE p.\"ProductID\" = ?;";
+        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            pstmt.setInt(1, productId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    product = new Product();
+                    product.setId(rs.getInt("ProductID"));
+                    product.setName(rs.getString("Name"));
+                    product.setSku(rs.getString("ProductSKU"));
+                    product.setDescription(rs.getString("Description"));
+                    product.setBrand(rs.getString("Brand"));
+                    product.setStatus(ProductStatus.valueOf(rs.getString("status")));
+                    product.setCreatedAt(rs.getDate("CreatedAt"));
+
+                    Category category = new Category();
+                    category.setName(rs.getString("CategoryName"));
+                    category.setId(rs.getInt("CategoryID"));
+                    product.setCategory(category);
+
+                    BusinessPartner supplier = new BusinessPartner();
+                    supplier.setName(rs.getString("SupplierName"));
+                    supplier.setId(rs.getInt("SupplierID"));
+                    product.setSupplier(supplier);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving product by ID: " + e.getMessage());
+        }
+        return product;
+    }
+    
     
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
@@ -140,18 +183,28 @@ public class ProductRepository {
         return suppliers;
     }
 
-    public void updateProduct(int id, String name, double price, int quantity) {
-        String sql = "UPDATE Product SET name = ?, price = ?, quantity = ? WHERE id = ?";
+    public boolean updateProduct(Product product) {
+        boolean success = false;
+        String sql
+                = "UPDATE \"Product\" "
+                + "SET \"ProductSKU\" = ?, \"Name\" = ?, \"Description\" = ?, \"CategoryID\" = ?, \"Brand\" = ?, \"SupplierID\" = ?, \"status\" = ? "
+                + "WHERE \"ProductID\" = ?";
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
-            stmt.setString(1, name);
-            stmt.setDouble(2, price);
-            stmt.setInt(3, quantity);
-            stmt.setInt(4, id);
+            stmt.setString(1, product.getSku());
+            stmt.setString(2, product.getName());
+            stmt.setString(3, product.getDescription());
+            stmt.setInt(4, product.getCategory().getId());
+            stmt.setString(5, product.getBrand());
+            stmt.setInt(6, product.getSupplier().getId());
+            stmt.setObject(7, product.getStatus().toString(), java.sql.Types.OTHER);
+            stmt.setInt(8, product.getId());
             stmt.executeUpdate();
-            System.out.println("Product updated successfully!");
+            success = true;
         } catch (SQLException e) {
+            success = false;
             System.err.println("Error updating product: " + e.getMessage());
         }
+        return success;
     }
 
     public boolean deleteProduct(int id) {

@@ -24,7 +24,7 @@ public class ProductService implements IProductService {
 
     @Override
     public boolean update(Product product) {
-        return false;
+        return productRepository.updateProduct(product);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getById(int id) {
-        return null;
+        return productRepository.getProductById(id);
     }
 
     @Override
